@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARRAYS Problems</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(to right, #f5f7fa, #c3cfe2); /* Gradient Background */
+            background-attachment: fixed;
+        }
+        h1 {
+            margin: 20px 0;
+            color: #007bff;
+        }
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Softer Shadow */
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .progress {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #28a745;
+        }
+        .progress-bar-container {
+            background: #e0e0e0;
+            border-radius: 5px;
+            height: 25px;
+            width: 100%;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background: #28a745;
+            width: 0;
+            transition: width 0.3s;
+        }
+        .progress-bar-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            font-weight: bold;
+            line-height: 25px;
+        }
+        .search-filter-container,
+        .sort-controls,
+        .topic-controls {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-filter-container input,
+        .search-filter-container select,
+        .sort-controls button,
+        .topic-controls select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            font-size: 1em;
+            margin-right: 10px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .search-filter-container input:focus,
+        .search-filter-container select:focus,
+        .sort-controls button:hover,
+        .topic-controls select:focus {
+            border-color: #007bff;
+        }
+        .search-filter-container button,
+        .sort-controls button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .search-filter-container button:hover,
+        .sort-controls button:hover {
+            background-color: #0056b3;
+        }
+        .problem-container {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .problem-container:last-child {
+            border-bottom: none;
+        }
+        .problem-title {
+            font-weight: bold;
+            color: #007bff;
+            flex: 1;
+        }
+        .problem-link {
+            color: #ff4500;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .problem-link:hover {
+            color: #ff6347;
+        }
+        .problem-checkbox {
+            margin-right: 10px;
+        }
+        .difficulty {
+            color: #6c757d;
+            font-style: italic;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ARRAYS Problems</h1>
+    <div class="container">
+        <div class="search-filter-container">
+            <input type="text" id="search-box" placeholder="Search problems..." />
+            <select id="sort-options">
+                <option value="title">Sort by Title</option>
+                <option value="status">Sort by Status</option>
+                <option value="difficulty">Sort by Difficulty</option>
+                <option value="completion">Sort by Completion</option>
+                <option value="incompletion">Sort by Incompletion</option>
+                <option value="difficultyAsc">Sort Difficulty: Easy to Hard</option>
+                <option value="difficultyDesc">Sort Difficulty: Hard to Easy</option>
+            </select>
+            <button id="reset-progress">Reset Progress</button>
+        </div>
+        <div class="progress" id="progress-tracker">Progress: 0/0 (0%)</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+            <div class="progress-bar-text" id="progress-bar-text">0%</div>
+        </div>
+        <div id="problems-container"></div>
+    </div>
+
+    <script>
+        const problems = [
+            { "topic": "Array", "problem": "Reverse the array", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/write-a-program-to-reverse-an-array-or-string/" },
+            { "topic": "Array", "problem": "Find the maximum and minimum element in an array", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/maximum-and-minimum-in-an-array/" },
+            { "topic": "Array", "problem": "Find the Kth largest element in an array", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/kth-largest-element-in-a-stream/" },
+            { "topic": "Array", "problem": "Find the majority element in an array", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/majority-element/" },
+            { "topic": "Array", "problem": "Rotate an array", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/array-rotation/" },
+            { "topic": "Array", "problem": "Find the intersection of two arrays", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/intersection-of-two-arrays/" },
+            { "topic": "Array", "problem": "Find the union of two arrays", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/union-of-two-arrays/" },
+            { "topic": "Array", "problem": "Check if a subarray with zero sum exists", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/find-if-there-is-a-subarray-with-zero-sum/" },
+            { "topic": "Array", "problem": "Find the missing number in an array of 1 to N", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/find-the-missing-number/" },
+            { "topic": "Array", "problem": "Find duplicates in an array", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/find-duplicates-in-an-array/" },
+            { "topic": "Array", "problem": "Find the smallest positive integer missing from an unsorted array", "difficulty": "Hard", "done": false, "url": "https://www.geeksforgeeks.org/smallest-positive-missing-number/" },
+            { "topic": "Array", "problem": "Merge two sorted arrays", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/merge-two-sorted-arrays-with-o1-extra-space/" },
+            { "topic": "Array", "problem": "Find the longest increasing subsequence", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/longest-increasing-subsequence-dp-3/" },
+            { "topic": "Array", "problem": "Find the longest contiguous subarray with sum zero", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/find-the-largest-subarray-with-zero-sum/" },
+            { "topic": "Array", "problem": "Rearrange positive and negative numbers in an array", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/rearrange-positive-and-negative-numbers/" },
+            { "topic": "Array", "problem": "Find the subarray with the given sum", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/find-a-subarray-with-a-given-sum/" },
+            { "topic": "Array", "problem": "Find the maximum sum subarray (Kadane's Algorithm)", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/largest-sum-contiguous-subarray/" },
+            { "topic": "Array", "problem": "Find all pairs in an array with a given sum", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/find-pair-given-sum-array/" },
+            { "topic": "Array", "problem": "Find the count of subarrays with exactly K odd numbers", "difficulty": "Hard", "done": false, "url": "https://www.geeksforgeeks.org/count-subarrays-with-exactly-k-odd-numbers/" }
+        ];
+
+        function displayProblems(problemsToDisplay) {
+            const container = document.getElementById('problems-container');
+            container.innerHTML = '';
+
+            problemsToDisplay.forEach((problem, index) => {
+                const problemElement = document.createElement('div');
+                problemElement.className = 'problem-container';
+
+                const titleElement = document.createElement('span');
+                titleElement.className = 'problem-title';
+                titleElement.textContent = `${index + 1}. ${problem.problem}`;
+                titleElement.innerHTML = `<a class="problem-link" href="${problem.url}" target="_blank">${problem.problem}</a>`;
+
+                const statusElement = document.createElement('input');
+                statusElement.type = 'checkbox';
+                statusElement.className = 'problem-checkbox';
+                statusElement.checked = problem.done;
+                statusElement.addEventListener('change', () => {
+                    problem.done = statusElement.checked;
+                    updateProgress();
+                });
+
+                const difficultyElement = document.createElement('span');
+                difficultyElement.className = 'difficulty';
+                difficultyElement.textContent = `Difficulty: ${problem.difficulty}`;
+
+                problemElement.appendChild(titleElement);
+                problemElement.appendChild(statusElement);
+                problemElement.appendChild(difficultyElement);
+
+                container.appendChild(problemElement);
+            });
+        }
+
+        function updateProgress() {
+            const totalProblems = problems.length;
+            const solvedProblems = problems.filter(p => p.done).length;
+            const progressPercent = totalProblems > 0 ? Math.round((solvedProblems / totalProblems) * 100) : 0;
+
+            document.getElementById('progress-tracker').textContent = `Progress: ${solvedProblems}/${totalProblems} (${progressPercent}%)`;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+            document.getElementById('progress-bar-text').textContent = `${progressPercent}%`;
+        }
+
+        function handleSearchAndSort() {
+            const searchQuery = document.getElementById('search-box').value.toLowerCase();
+            const sortOption = document.getElementById('sort-options').value;
+
+            let filteredProblems = problems.filter(p => p.problem.toLowerCase().includes(searchQuery));
+
+            if (sortOption === 'title') {
+                filteredProblems.sort((a, b) => a.problem.localeCompare(b.problem));
+            } else if (sortOption === 'status') {
+                filteredProblems.sort((a, b) => a.done - b.done);
+            } else if (sortOption === 'difficulty') {
+                const difficultyOrder = { 'Easy': 1, 'Medium': 2, 'Hard': 3 };
+                filteredProblems.sort((a, b) => difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]);
+            } else if (sortOption === 'completion') {
+                filteredProblems.sort((a, b) => b.done - a.done);
+            } else if (sortOption === 'incompletion') {
+                filteredProblems.sort((a, b) => a.done - b.done);
+            } else if (sortOption === 'difficultyAsc') {
+                filteredProblems.sort((a, b) => difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]);
+            } else if (sortOption === 'difficultyDesc') {
+                filteredProblems.sort((a, b) => difficultyOrder[b.difficulty] - difficultyOrder[a.difficulty]);
+            }
+
+            return filteredProblems;
+        }
+
+        document.getElementById('search-box').addEventListener('input', () => {
+            displayProblems(handleSearchAndSort());
+        });
+
+        document.getElementById('sort-options').addEventListener('change', () => {
+            displayProblems(handleSearchAndSort());
+        });
+
+        document.getElementById('reset-progress').addEventListener('click', () => {
+            problems.forEach(p => p.done = false);
+            displayProblems(handleSearchAndSort());
+            updateProgress();
+        });
+
+        // Initial display
+        updateProgress();
+        displayProblems(problems);
+    </script>
+</body>
+</html>

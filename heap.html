@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEAP PROBLEMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(to right, #f5f7fa, #c3cfe2); /* Gradient Background */
+            background-attachment: fixed;
+        }
+        h1 {
+            margin: 20px 0;
+            color: #007bff;
+        }
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Softer Shadow */
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .progress {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #28a745;
+        }
+        .progress-bar-container {
+            background: #e0e0e0;
+            border-radius: 5px;
+            height: 25px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background: #28a745;
+            width: 0;
+            transition: width 0.3s;
+        }
+        .search-filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-filter-container input,
+        .search-filter-container select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            font-size: 1em;
+            margin-right: 10px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .search-filter-container input:focus,
+        .search-filter-container select:focus {
+            border-color: #007bff;
+        }
+        .search-filter-container button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        .search-filter-container button:hover {
+            background-color: #0056b3;
+        }
+        .problem-container {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .problem-container:last-child {
+            border-bottom: none;
+        }
+        .problem-title {
+            font-weight: bold;
+            color: #007bff;
+            flex: 1;
+        }
+        .problem-link {
+            color: #ff4500;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .problem-link:hover {
+            color: #ff6347;
+        }
+        .problem-checkbox {
+            margin-right: 10px;
+        }
+        .difficulty {
+            color: #6c757d;
+            font-style: italic;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>HEAP PROBLEMS</h1>
+    <div class="container">
+        <div class="search-filter-container">
+            <input type="text" id="search-box" placeholder="Search problems..." />
+            <select id="sort-options">
+                <option value="title">Sort by Title</option>
+                <option value="status">Sort by Status</option>
+                <option value="difficulty">Sort by Difficulty</option>
+                <option value="completion">Sort by Completion</option>
+                <option value="incompletion">Sort by Incompletion</option>
+                <option value="difficultyAsc">Sort Difficulty: Easy to Hard</option>
+                <option value="difficultyDesc">Sort Difficulty: Hard to Easy</option>
+            </select>
+            <button id="reset-progress">Reset Progress</button>
+        </div>
+        <div class="progress" id="progress-tracker">Progress: 0/0 (0%)</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div id="problems-container"></div>
+    </div>
+
+    <script>
+        // Retrieve problems from localStorage or use the default list
+        const storedProblems = localStorage.getItem('heapproblems');
+        const problems = storedProblems ? JSON.parse(storedProblems) : [
+            { "topic": "Heap", "problem": "Implement a Maxheap/MinHeap using arrays and recursion.", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/building-heap-from-array/" },
+            { "topic": "Heap", "problem": "Sort an Array using heap. (HeapSort)", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/heap-sort/" },
+            { "topic": "Heap", "problem": "Maximum of all subarrays of size k.", "difficulty": "Hard", "done": false, "url": "https://www.geeksforgeeks.org/sliding-window-maximum-maximum-of-all-subarrays-of-size-k/" },
+            { "topic": "Heap", "problem": "“k” largest element in an array", "difficulty": "Easy", "done": false, "url": "https://practice.geeksforgeeks.org/problems/k-largest-elements4206/1" },
+            { "topic": "Heap", "problem": "Kth smallest and largest element in an unsorted array", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" },
+            { "topic": "Heap", "problem": "Merge “K” sorted arrays. [ IMP ]", "difficulty": "Hard", "done": false, "url": "https://practice.geeksforgeeks.org/problems/merge-k-sorted-arrays/1" },
+            { "topic": "Heap", "problem": "Merge 2 Binary Max Heaps", "difficulty": "Medium", "done": false, "url": "https://practice.geeksforgeeks.org/problems/merge-two-binary-max-heap/0" },
+            { "topic": "Heap", "problem": "Kth largest sum continuous subarrays", "difficulty": "Hard", "done": false, "url": "https://www.geeksforgeeks.org/k-th-largest-sum-contiguous-subarray/" },
+            { "topic": "Heap", "problem": "Leetcode- reorganize strings", "difficulty": "Medium", "done": false, "url": "https://leetcode.com/problems/reorganize-string/" },
+            { "topic": "Heap", "problem": "Merge “K” Sorted Linked Lists [V.IMP]", "difficulty": "Hard", "done": false, "url": "https://practice.geeksforgeeks.org/problems/merge-k-sorted-linked-lists/1" },
+            { "topic": "Heap", "problem": "Smallest range in “K” Lists", "difficulty": "Hard", "done": false, "url": "https://practice.geeksforgeeks.org/problems/find-smallest-range-containing-elements-from-k-lists/1" },
+            { "topic": "Heap", "problem": "Median in a stream of Integers", "difficulty": "Hard", "done": false, "url": "https://practice.geeksforgeeks.org/problems/find-median-in-a-stream/0" },
+            { "topic": "Heap", "problem": "Check if a Binary Tree is Heap", "difficulty": "Easy", "done": false, "url": "https://practice.geeksforgeeks.org/problems/is-binary-tree-heap/1" },
+            { "topic": "Heap", "problem": "Connect “n” ropes with minimum cost", "difficulty": "Medium", "done": false, "url": "https://practice.geeksforgeeks.org/problems/minimum-cost-of-ropes/0" },
+            { "topic": "Heap", "problem": "Convert BST to Min Heap", "difficulty": "Hard", "done": false, "url": "https://www.geeksforgeeks.org/convert-bst-min-heap/" },
+            { "topic": "Heap", "problem": "Convert min heap to max heap", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/convert-min-heap-to-max-heap/" },
+            { "topic": "Heap", "problem": "Rearrange characters in a string such that no two adjacent are same.", "difficulty": "Hard", "done": false, "url": "https://practice.geeksforgeeks.org/problems/rearrange-characters/0" },
+            { "topic": "Heap", "problem": "Minimum sum of two numbers formed from digits of an array", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/minimum-sum-of-two-numbers-formed-from-digits-of-an-array/" },
+            { "topic": "Heap", "problem": "Minimum sum of squares of character counts in a given string after removing “k” characters.", "difficulty": "Medium", "done": false, "url": "https://practice.geeksforgeeks.org/problems/game-with-string/0" },
+            { "topic": "Heap", "problem": "Maximum distinct elements after removing k elements.", "difficulty": "Medium", "done": false, "url": "https://practice.geeksforgeeks.org/problems/maximize-distinct-elements/0" }
+        ];
+        function displayProblems(problems) {
+            const container = document.getElementById("problems-container");
+            container.innerHTML = "";
+
+            problems.forEach((problem, index) => {
+                const problemDiv = document.createElement("div");
+                problemDiv.className = "problem-container";
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "problem-checkbox";
+                checkbox.checked = problem.done;
+                checkbox.addEventListener("change", () => {
+                    problem.done = checkbox.checked;
+                    updateProgress();
+                    saveProblems();
+                });
+
+                const title = document.createElement("span");
+                title.className = "problem-title";
+                title.textContent = problem.problem;
+
+                const difficulty = document.createElement("span");
+                difficulty.className = "difficulty";
+                difficulty.textContent = problem.difficulty;
+
+                const link = document.createElement("a");
+                link.className = "problem-link";
+                link.href = problem.url;
+                link.textContent = "Solve";
+                link.target = "_blank";
+
+                problemDiv.appendChild(checkbox);
+                problemDiv.appendChild(title);
+                problemDiv.appendChild(difficulty);
+                problemDiv.appendChild(link);
+
+                container.appendChild(problemDiv);
+            });
+        }
+
+        function updateProgress() {
+            const totalProblems = problems.length;
+            const solvedProblems = problems.filter(problem => problem.done).length;
+            const progressPercentage = Math.round((solvedProblems / totalProblems) * 100);
+
+            document.getElementById("progress-tracker").textContent = `Progress: ${solvedProblems}/${totalProblems} (${progressPercentage}%)`;
+            document.getElementById("progress-bar").style.width = `${progressPercentage}%`;
+        }
+
+        function saveProblems() {
+            localStorage.setItem('heapproblems', JSON.stringify(problems));
+        }
+
+        document.getElementById("search-box").addEventListener("input", function () {
+            const query = this.value.toLowerCase();
+            const filteredProblems = problems.filter(problem => problem.problem.toLowerCase().includes(query));
+            displayProblems(filteredProblems);
+        });
+
+        document.getElementById("sort-options").addEventListener("change", function () {
+            const sortBy = this.value;
+
+            let sortedProblems = [...problems];
+
+            if (sortBy === "title") {
+                sortedProblems.sort((a, b) => a.problem.localeCompare(b.problem));
+            } else if (sortBy === "status") {
+                sortedProblems.sort((a, b) => a.done - b.done);
+            } else if (sortBy === "difficulty") {
+                const difficultyOrder = { "Easy": 1, "Medium": 2, "Hard": 3 };
+                sortedProblems.sort((a, b) => difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]);
+            } else if (sortBy === "completion") {
+                sortedProblems = problems.filter(problem => problem.done);
+            } else if (sortBy === "incompletion") {
+                sortedProblems = problems.filter(problem => !problem.done);
+            } else if (sortBy === "difficultyAsc") {
+                sortedProblems.sort((a, b) => a.difficulty.localeCompare(b.difficulty));
+            } else if (sortBy === "difficultyDesc") {
+                sortedProblems.sort((a, b) => b.difficulty.localeCompare(a.difficulty));
+            }
+
+            displayProblems(sortedProblems);
+        });
+
+        document.getElementById("reset-progress").addEventListener("click", function () {
+            problems.forEach(problem => {
+                problem.done = false;
+            });
+            updateProgress();
+            saveProblems();
+            displayProblems(problems);
+        });
+
+        // Initialize the page
+        displayProblems(problems);
+        updateProgress();
+    </script>
+</body>
+</html>

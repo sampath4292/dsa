@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to Your Account</title>
+    <link rel="stylesheet" href="sign.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-section">
+            <h2>Login to Your Account</h2>
+            <p>Login using social networks</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon facebook">
+                    <img src="https://th.bing.com/th/id/OIP.JflGW8e1fT4_ttSuFTQXJwHaHj?rs=1&pid=ImgDetMain" alt="Facebook">
+                </a>
+                <a href="#" class="social-icon google">
+                    <img src="https://th.bing.com/th/id/OIP.jaHwmagXkJZBZXWOOBlfjAAAAA?rs=1&pid=ImgDetMain" alt="Google">
+                </a>
+                <a href="#" class="social-icon linkedin">
+                    <img src="https://th.bing.com/th/id/OIP.ZpyamNmvkw-dQQjUyumitAAAAA?rs=1&pid=ImgDetMain" alt="LinkedIn">
+                </a>
+            </div>
+            <div class="divider">
+                <span>OR</span>
+            </div>
+            <form id="login-form">
+                <input type="email" placeholder="Email" required id="email">
+                <input type="password" placeholder="Password" required id="password">
+                <button type="button" id="submit" class="btn-signin" onclick="submitform()">Sign In</button>
+            </form>
+        </div>
+        <div class="signup-section">
+            <h3>New Here?</h3>
+            <p>Sign up and discover a great amount of new opportunities!</p>
+            <button class="btn-signup" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+    </div>
+    <script src="sign.js"></script>
+</body>
+</html>

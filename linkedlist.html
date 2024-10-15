@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked List Problems</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(to right, #f5f7fa, #c3cfe2); /* Gradient Background */
+            background-attachment: fixed;
+        }
+        h1 {
+            margin: 20px 0;
+            color: #007bff;
+        }
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Softer Shadow */
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .progress {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #28a745;
+        }
+        .progress-bar-container {
+            background: #e0e0e0;
+            border-radius: 5px;
+            height: 25px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background: #28a745;
+            width: 0;
+            transition: width 0.3s;
+        }
+        .search-filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-filter-container input,
+        .search-filter-container select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            font-size: 1em;
+            margin-right: 10px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .search-filter-container input:focus,
+        .search-filter-container select:focus {
+            border-color: #007bff;
+        }
+        .search-filter-container button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        .search-filter-container button:hover {
+            background-color: #0056b3;
+        }
+        .problem-container {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .problem-container:last-child {
+            border-bottom: none;
+        }
+        .problem-title {
+            font-weight: bold;
+            color: #007bff;
+            flex: 1;
+        }
+        .problem-link {
+            color: #ff4500;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .problem-link:hover {
+            color: #ff6347;
+        }
+        .problem-checkbox {
+            margin-right: 10px;
+        }
+        .difficulty {
+            color: #6c757d;
+            font-style: italic;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Linked List Problems</h1>
+    <div class="container">
+        <div class="search-filter-container">
+            <input type="text" id="search-box" placeholder="Search problems..." />
+            <select id="sort-options">
+                <option value="title">Sort by Title</option>
+                <option value="status">Sort by Status</option>
+                <option value="difficulty">Sort by Difficulty</option>
+                <option value="completion">Sort by Completion</option>
+                <option value="incompletion">Sort by Incompletion</option>
+                <option value="difficultyAsc">Sort Difficulty: Easy to Hard</option>
+                <option value="difficultyDesc">Sort Difficulty: Hard to Easy</option>
+            </select>
+            <button id="reset-progress">Reset Progress</button>
+        </div>
+        <div class="progress" id="progress-tracker">Progress: 0/0 (0%)</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div id="problems-container"></div>
+    </div>
+
+    <script>
+        // Retrieve problems from localStorage or use the default list
+        const storedProblems = localStorage.getItem('linkedListproblems');
+        const problems = storedProblems ? JSON.parse(storedProblems) : [
+            { "Topic": "LinkedList", "problem": "Write a Program to reverse the Linked List. (Both Iterative and recursive)", "done": false, "URL": "https://www.geeksforgeeks.org/reverse-a-linked-list/", "difficulty": "Medium" },
+            { "Topic": "LinkedList", "problem": "Reverse a Linked List in group of Given Size. [Very Imp]", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/reverse-a-linked-list-in-groups-of-given-size/1", "difficulty": "Hard" },
+            { "Topic": "LinkedList", "problem": "Write a program to Detect loop in a linked list.", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/detect-loop-in-linked-list/1", "difficulty": "Medium" },
+            { "Topic": "LinkedList", "problem": "Write a program to Delete loop in a linked list.", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/remove-loop-in-linked-list/1", "difficulty": "Medium" },
+            { "Topic": "LinkedList", "problem": "Find the starting point of the loop.", "done": false, "URL": "https://www.geeksforgeeks.org/find-first-node-of-loop-in-a-linked-list/", "difficulty": "Hard" },
+            { "Topic": "LinkedList", "problem": "Remove Duplicates in a sorted Linked List.", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/remove-duplicate-element-from-sorted-linked-list/1", "difficulty": "Easy" },
+            { "Topic": "LinkedList", "problem": "Remove Duplicates in an Un-sorted Linked List.", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/remove-duplicates-from-an-unsorted-linked-list/1", "difficulty": "Medium" },
+            { "Topic": "LinkedList", "problem": "Write a Program to Move the last element to Front in a Linked List.", "done": false, "URL": "https://www.geeksforgeeks.org/move-last-element-to-front-of-a-given-linked-list/", "difficulty": "Medium" },
+            { "Topic": "LinkedList", "problem": "Add “1” to a number represented as a Linked List.", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/add-1-to-a-number-represented-as-linked-list/1", "difficulty": "Hard" },
+            { "Topic": "LinkedList", "problem": "Add two numbers represented by linked lists.", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/add-two-numbers-represented-by-linked-lists/1", "difficulty": "Hard" },
+            { "Topic": "LinkedList", "problem": "Intersection of two Sorted Linked List.", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/intersection-of-two-sorted-linked-lists/1", "difficulty": "Medium" },
+            { "Topic": "LinkedList", "problem": "Intersection Point of two Linked Lists.", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/intersection-point-in-y-shapped-linked-lists/1", "difficulty": "Medium" },
+            { "Topic": "LinkedList", "problem": "Merge Sort For Linked lists.[Very Important]", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/sort-a-linked-list/1", "difficulty": "Hard" },
+            { "Topic": "LinkedList", "problem": "Quicksort for Linked Lists.[Very Important]", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/quick-sort-on-linked-list/1", "difficulty": "Hard" },
+            { "Topic": "LinkedList", "problem": "Find the middle Element of a linked list.", "done": false, "URL": "https://leetcode.com/problems/middle-of-the-linked-list/", "difficulty": "Easy" },
+            { "Topic": "LinkedList", "problem": "Check if a linked list is a circular linked list.", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/circular-linked-list/1", "difficulty": "Medium" },
+            { "Topic": "LinkedList", "problem": "Split a Circular linked list into two halves.", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/split-a-circular-linked-list-into-two-halves/1", "difficulty": "Hard" },
+            { "Topic": "LinkedList", "problem": "Flatten a Linked List with next and child pointers.", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/flattening-a-linked-list/1", "difficulty": "Hard" },
+            { "Topic": "LinkedList", "problem": "Reverse alternate K nodes in a Linked List.", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/reverse-alternate-k-nodes-in-a-linked-list/1", "difficulty": "Hard" }
+        ];
+
+        function displayProblems(problems) {
+            const container = document.getElementById("problems-container");
+            container.innerHTML = "";
+
+            problems.forEach((problem, index) => {
+                const problemDiv = document.createElement("div");
+                problemDiv.className = "problem-container";
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "problem-checkbox";
+                checkbox.checked = problem.done;
+                checkbox.addEventListener("change", () => {
+                    problem.done = checkbox.checked;
+                    updateProgress();
+                    saveProblems();
+                });
+
+                const title = document.createElement("span");
+                title.className = "problem-title";
+                title.textContent = problem.problem;
+
+                const difficulty = document.createElement("span");
+                difficulty.className = "difficulty";
+                difficulty.textContent = problem.difficulty;
+
+                const link = document.createElement("a");
+                link.className = "problem-link";
+                link.href = problem.URL; // Fixed URL key to match the data
+                link.textContent = "Solve";
+                link.target = "_blank";
+
+                problemDiv.appendChild(checkbox);
+                problemDiv.appendChild(title);
+                problemDiv.appendChild(difficulty);
+                problemDiv.appendChild(link);
+
+                container.appendChild(problemDiv);
+            });
+        }
+
+        function updateProgress() {
+            const totalProblems = problems.length;
+            const solvedProblems = problems.filter(problem => problem.done).length;
+            const progressPercentage = Math.round((solvedProblems / totalProblems) * 100);
+
+            document.getElementById("progress-tracker").textContent = `Progress: ${solvedProblems}/${totalProblems} (${progressPercentage}%)`;
+            document.getElementById("progress-bar").style.width = `${progressPercentage}%`;
+        }
+
+        function saveProblems() {
+            localStorage.setItem('linkedListproblems', JSON.stringify(problems));
+        }
+
+        document.getElementById("search-box").addEventListener("input", function () {
+            const query = this.value.toLowerCase();
+            const filteredProblems = problems.filter(problem => problem.problem.toLowerCase().includes(query));
+            displayProblems(filteredProblems);
+        });
+
+        document.getElementById("sort-options").addEventListener("change", function () {
+            const sortBy = this.value;
+
+            let sortedProblems = [...problems];
+
+            if (sortBy === "title") {
+                sortedProblems.sort((a, b) => a.problem.localeCompare(b.problem));
+            } else if (sortBy === "status") {
+                sortedProblems.sort((a, b) => a.done - b.done);
+            } else if (sortBy === "difficulty") {
+                const difficultyOrder = { "Easy": 1, "Medium": 2, "Hard": 3 };
+                sortedProblems.sort((a, b) => difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]);
+            } else if (sortBy === "completion") {
+                sortedProblems = problems.filter(problem => problem.done);
+            } else if (sortBy === "incompletion") {
+                sortedProblems = problems.filter(problem => !problem.done);
+            } else if (sortBy === "difficultyAsc") {
+                const difficultyOrder = { "Easy": 1, "Medium": 2, "Hard": 3 };
+                sortedProblems.sort((a, b) => difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]);
+            } else if (sortBy === "difficultyDesc") {
+                const difficultyOrder = { "Easy": 1, "Medium": 2, "Hard": 3 };
+                sortedProblems.sort((a, b) => difficultyOrder[b.difficulty] - difficultyOrder[a.difficulty]);
+            }
+
+            displayProblems(sortedProblems);
+        });
+
+        document.getElementById("reset-progress").addEventListener("click", function () {
+            problems.forEach(problem => {
+                problem.done = false;
+            });
+            updateProgress();
+            saveProblems();
+            displayProblems(problems);
+        });
+
+        // Initialize the page
+        displayProblems(problems);
+        updateProgress();
+    </script>
+</body>
+</html>

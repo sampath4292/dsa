@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Cards</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: #fff;
+        }
+        .head {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .head h1 {
+            font-size: 2.5rem;
+        }
+        .card {
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        .card-title a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .card-title a:hover {
+            color: #0056b3;
+        }
+        .card-body {
+            text-align: center;
+        }
+        .progress-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .progress-container span {
+            font-size: 1.1rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="head">
+        <h1><i class="fa fa-align-center" aria-hidden="true"></i> DSA</h1>
+    </div>
+    <div class="container">
+        <div class="row">
+            <!-- Array Card -->
+            <div class="col-md-4" id="array-card">
+                <div class="card">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Arrays">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="array.html">ARRAYS</a></h5>
+                        <div class="progress-container">
+                            <span id="array-progress">0</span> Problems Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Strings Card -->
+            <div class="col-md-4" id="strings-card">
+                <div class="card">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Strings">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="Strings.html">Strings</a></h5>
+                        <div class="progress-container">
+                            <span id="strings-progress">0</span> Problems Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sort & Search Card -->
+            <div class="col-md-4" id="sort-search-card">
+                <div class="card">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Sort & Search">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="sort&search.html">Sort & Search</a></h5>
+                        <div class="progress-container">
+                            <span id="sort-search-progress">0</span> Problems Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- LinkedList Card -->
+            <div class="col-md-4" id="linkedlist-card">
+                <div class="card">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="LinkedList">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="linkedlist.html">LinkedList</a></h5>
+                        <div class="progress-container">
+                            <span id="linkedlist-progress">0</span> Problems Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Matrix Card -->
+            <div class="col-md-4" id="matrix-card">
+                <div class="card">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Matrix">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="matrix2.html">MATRIX</a></h5>
+                        <div class="progress-container">
+                            <span id="matrix-progress">0</span> Problems Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Binary Tree Card -->
+            <div class="col-md-4" id="binary-tree-card">
+                <div class="card">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Binary Tree">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="binary tree.html">Binary Tree</a></h5>
+                        <div class="progress-container">
+                            <span id="binary-tree-progress">0</span> Problems Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- BST Card -->
+            <div class="col-md-4" id="bst-card">
+                <div class="card">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="BST">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="bst.html">BST</a></h5>
+                        <div class="progress-container">
+                            <span id="bst-progress">0</span> Problems Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Greedy Card -->
+            <div class="col-md-4" id="greedy-card">
+                <div class="card">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Greedy">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="greedy.html">Greedy</a></h5>
+                        <div class="progress-container">
+                            <span id="greedy-progress">0</span> Problems Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Backtracking Card -->
+            <div class="col-md-4" id="backtracking-card">
+                <div class="card">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Backtracking">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="backtracking.html">Backtracking</a></h5>
+                        <div class="progress-container">
+                            <span id="backtracking-progress">0</span> Problems Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Stacks & Queues Card -->
+            <div class="col-md-4" id="stacks-queues-card">
+                <div class="card">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Stacks & Queues">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="stacks&queues.html">Stacks & Queues</a></h5>
+                        <div class="progress-container">
+                            <span id="stacks-queues-progress">0</span> Problems Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Heap Card -->
+            <div class="col-md-4" id="heap-card">
+                <div class="card">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Heap">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="heap.html">Heap</a></h5>
+                        <div class="progress-container">
+                            <span id="heap-progress">0</span> Problems Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Graph Card -->
+            <div class="col-md-4" id="graph-card">
+                <div class="card">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Graph">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="graph.html">Graph</a></h5>
+                        <div class="progress-container">
+                            <span id="graph-progress">0</span> Problems Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Trie Card -->
+            <div class="col-md-4" id="trie-card">
+                <div class="card">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Trie">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="tire.html">Trie</a></h5>
+                        <div class="progress-container">
+                            <span id="trie-progress">0</span> Problems Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Dynamic Programming Card -->
+            <div class="col-md-4" id="dp-card">
+                <div class="card">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Dynamic Programming">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="dp.html">Dynamic Programming</a></h5>
+                        <div class="progress-container">
+                            <span id="dp-progress">0</span> Problems Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Bit Manipulation Card -->
+            <div class="col-md-4" id="bit-card">
+                <div class="card">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Bit Manipulation">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="bit.html">Bit Manipulation</a></h5>
+                        <div class="progress-container">
+                            <span id="bit-progress">0</span> Problems Completed
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+       function updateCardProgress(cardId, progressId, storageKey) {
+    try {
+        const storedProblems = JSON.parse(localStorage.getItem(storageKey)) || [];
+        const completed = storedProblems.filter(problem => problem.done).length;
+        document.getElementById(progressId).textContent = completed;
+    } catch (error) {
+        console.error(`Error updating progress for ${cardId}:`, error);
+        document.getElementById(progressId).textContent = '0';
+    }
+}
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCardProgress('array-card', 'array-progress', 'arraysproblems');
+            updateCardProgress('strings-card', 'strings-progress', 'stringsproblems');
+            updateCardProgress('sort-search-card', 'sort-search-progress', 'sortSearchproblems');
+            updateCardProgress('linkedlist-card', 'linkedlist-progress', 'linkedListproblems');
+            updateCardProgress('matrix-card', 'matrix-progress', 'matrixproblems');
+            updateCardProgress('binary-tree-card', 'binary-tree-progress', 'binaryTreeproblems');
+            updateCardProgress('bst-card', 'bst-progress', 'bstproblems');
+            updateCardProgress('greedy-card', 'greedy-progress', 'greedyproblems');
+            updateCardProgress('backtracking-card', 'backtracking-progress', 'backtrackingproblems');
+            updateCardProgress('stacks-queues-card', 'stacks-queues-progress', 'stacksQueuesproblems');
+            updateCardProgress('heap-card', 'heap-progress', 'heapproblems');
+            updateCardProgress('graph-card', 'graph-progress', 'graphproblems');
+            updateCardProgress('trie-card', 'trie-progress', 'trieProblems');
+            updateCardProgress('dp-card', 'dp-progress', 'dpproblems');
+            updateCardProgress('bit-card', 'bit-progress', 'bitproblems');
+        });
+    </script>
+</body>
+</html>

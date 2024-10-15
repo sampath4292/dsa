@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MATRIX PROBLEMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(to right, #f5f7fa, #c3cfe2); /* Gradient Background */
+            background-attachment: fixed;
+        }
+        h1 {
+            margin: 20px 0;
+            color: #007bff;
+        }
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Softer Shadow */
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .progress {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #28a745;
+        }
+        .progress-bar-container {
+            background: #e0e0e0;
+            border-radius: 5px;
+            height: 25px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background: #28a745;
+            width: 0;
+            transition: width 0.3s;
+        }
+        .search-filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-filter-container input,
+        .search-filter-container select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            font-size: 1em;
+            margin-right: 10px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .search-filter-container input:focus,
+        .search-filter-container select:focus {
+            border-color: #007bff;
+        }
+        .search-filter-container button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        .search-filter-container button:hover {
+            background-color: #0056b3;
+        }
+        .problem-container {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .problem-container:last-child {
+            border-bottom: none;
+        }
+        .problem-title {
+            font-weight: bold;
+            color: #007bff;
+            flex: 1;
+        }
+        .problem-link {
+            color: #ff4500;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .problem-link:hover {
+            color: #ff6347;
+        }
+        .problem-checkbox {
+            margin-right: 10px;
+        }
+        .difficulty {
+            color: #6c757d;
+            font-style: italic;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>MATRIX PROBLEMS</h1>
+    <div class="container">
+        <div class="search-filter-container">
+            <input type="text" id="search-box" placeholder="Search problems..." />
+            <select id="sort-options">
+                <option value="title">Sort by Title</option>
+                <option value="status">Sort by Status</option>
+                <option value="difficulty">Sort by Difficulty</option>
+                <option value="completion">Sort by Completion</option>
+                <option value="incompletion">Sort by Incompletion</option>
+                <option value="difficultyAsc">Sort Difficulty: Easy to Hard</option>
+                <option value="difficultyDesc">Sort Difficulty: Hard to Easy</option>
+            </select>
+            <button id="reset-progress">Reset Progress</button>
+        </div>
+        <div class="progress" id="progress-tracker">Progress: 0/0 (0%)</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div id="problems-container"></div>
+    </div>
+
+    <script>
+        // Retrieve problems from localStorage or use the default list
+        const storedProblems = localStorage.getItem('matrixproblems');
+        const problems = storedProblems ? JSON.parse(storedProblems) : [
+            { "topic": "Matrix", "problem": "Search an element in a matrix", "difficulty": "Medium", "done": false, "url": "https://leetcode.com/problems/search-a-2d-matrix/" },
+            { "topic": "Matrix", "problem": "Find median in a row wise sorted matrix", "difficulty": "Hard", "done": false, "url": "https://practice.geeksforgeeks.org/problems/median-in-a-row-wise-sorted-matrix1527/1" },
+            { "topic": "Matrix", "problem": "Find row with maximum no. of 1's", "difficulty": "Easy", "done": false, "url": "https://practice.geeksforgeeks.org/problems/row-with-max-1s0023/1" },
+            { "topic": "Matrix", "problem": "Print elements in sorted order using row-column wise sorted matrix", "difficulty": "Medium", "done": false, "url": "https://practice.geeksforgeeks.org/problems/sorted-matrix/0" },
+            { "topic": "Matrix", "problem": "Maximum size rectangle", "difficulty": "Hard", "done": false, "url": "https://practice.geeksforgeeks.org/problems/max-rectangle/1" },
+            { "topic": "Matrix", "problem": "Find a specific pair in matrix", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/find-a-specific-pair-in-matrix/" },
+            { "topic": "Matrix", "problem": "Rotate matrix by 90 degrees", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/rotate-a-matrix-by-90-degree-in-clockwise-direction-without-using-any-extra-space/" },
+            { "topic": "Matrix", "problem": "Kth smallest element in a row-column wise sorted matrix", "difficulty": "Hard", "done": false, "url": "https://practice.geeksforgeeks.org/problems/kth-element-in-matrix/1" },
+            { "topic": "Matrix", "problem": "Common elements in all rows of a given matrix", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/common-elements-in-all-rows-of-a-given-matrix/" },
+            { "topic": "Matrix", "problem": "Spiral Order Matrix Traversal", "difficulty": "Medium", "done": false, "url": "https://leetcode.com/problems/spiral-order-matrix/" },
+            { "topic": "Matrix", "problem": "Rotate Matrix by 90 Degrees (Counterclockwise)", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/rotate-matrix-90-degrees-counterclockwise/" },
+            { "topic": "Matrix", "problem": "Longest Increasing Path in a Matrix", "difficulty": "Hard", "done": false, "url": "https://leetcode.com/problems/longest-increasing-path-in-a-matrix/" },
+            { "topic": "Matrix", "problem": "Set Matrix Zeroes", "difficulty": "Medium", "done": false, "url": "https://leetcode.com/problems/set-matrix-zeroes/" },
+            { "topic": "Matrix", "problem": "Find the Intersection of Two Arrays", "difficulty": "Easy", "done": false, "url": "https://leetcode.com/problems/intersection-of-two-arrays/" },
+            { "topic": "Matrix", "problem": "Search a 2D Matrix II", "difficulty": "Medium", "done": false, "url": "https://leetcode.com/problems/search-a-2d-matrix-ii/" },
+            { "topic": "Matrix", "problem": "Diagonal Traverse", "difficulty": "Medium", "done": false, "url": "https://leetcode.com/problems/diagonal-traverse/" },
+            { "topic": "Matrix", "problem": "Number of Islands", "difficulty": "Hard", "done": false, "url": "https://leetcode.com/problems/number-of-islands/" },
+            { "topic": "Matrix", "problem": "Maximum Sum Rectangle in a 2D Matrix", "difficulty": "Hard", "done": false, "url": "https://www.geeksforgeeks.org/maximum-sum-rectangle-in-2d-matrix/" },
+            { "topic": "Matrix", "problem": "Minimum Path Sum in a Grid", "difficulty": "Medium", "done": false, "url": "https://leetcode.com/problems/minimum-path-sum/" }
+        ];
+        function displayProblems(problems) {
+            const container = document.getElementById("problems-container");
+            container.innerHTML = "";
+
+            problems.forEach((problem, index) => {
+                const problemDiv = document.createElement("div");
+                problemDiv.className = "problem-container";
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "problem-checkbox";
+                checkbox.checked = problem.done;
+                checkbox.addEventListener("change", () => {
+                    problem.done = checkbox.checked;
+                    updateProgress();
+                    saveProblems();
+                });
+
+                const title = document.createElement("span");
+                title.className = "problem-title";
+                title.textContent = problem.problem;
+
+                const difficulty = document.createElement("span");
+                difficulty.className = "difficulty";
+                difficulty.textContent = problem.difficulty;
+
+                const link = document.createElement("a");
+                link.className = "problem-link";
+                link.href = problem.url;
+                link.textContent = "Solve";
+                link.target = "_blank";
+
+                problemDiv.appendChild(checkbox);
+                problemDiv.appendChild(title);
+                problemDiv.appendChild(difficulty);
+                problemDiv.appendChild(link);
+
+                container.appendChild(problemDiv);
+            });
+        }
+
+        function updateProgress() {
+            const totalProblems = problems.length;
+            const solvedProblems = problems.filter(problem => problem.done).length;
+            const progressPercentage = Math.round((solvedProblems / totalProblems) * 100);
+
+            document.getElementById("progress-tracker").textContent = `Progress: ${solvedProblems}/${totalProblems} (${progressPercentage}%)`;
+            document.getElementById("progress-bar").style.width = `${progressPercentage}%`;
+        }
+
+        function saveProblems() {
+            localStorage.setItem('matrixproblems', JSON.stringify(problems));
+        }
+
+        document.getElementById("search-box").addEventListener("input", function () {
+            const query = this.value.toLowerCase();
+            const filteredProblems = problems.filter(problem => problem.problem.toLowerCase().includes(query));
+            displayProblems(filteredProblems);
+        });
+
+        document.getElementById("sort-options").addEventListener("change", function () {
+            const sortBy = this.value;
+
+            let sortedProblems = [...problems];
+
+            if (sortBy === "title") {
+                sortedProblems.sort((a, b) => a.problem.localeCompare(b.problem));
+            } else if (sortBy === "status") {
+                sortedProblems.sort((a, b) => a.done - b.done);
+            } else if (sortBy === "difficulty") {
+                const difficultyOrder = { "Easy": 1, "Medium": 2, "Hard": 3 };
+                sortedProblems.sort((a, b) => difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]);
+            } else if (sortBy === "completion") {
+                sortedProblems = problems.filter(problem => problem.done);
+            } else if (sortBy === "incompletion") {
+                sortedProblems = problems.filter(problem => !problem.done);
+            } else if (sortBy === "difficultyAsc") {
+                sortedProblems.sort((a, b) => a.difficulty.localeCompare(b.difficulty));
+            } else if (sortBy === "difficultyDesc") {
+                sortedProblems.sort((a, b) => b.difficulty.localeCompare(a.difficulty));
+            }
+
+            displayProblems(sortedProblems);
+        });
+
+        document.getElementById("reset-progress").addEventListener("click", function () {
+            problems.forEach(problem => {
+                problem.done = false;
+            });
+            updateProgress();
+            saveProblems();
+            displayProblems(problems);
+        });
+
+        // Initialize the page
+        displayProblems(problems);
+        updateProgress();
+    </script>
+</body>
+</html>

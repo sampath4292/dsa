@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Search Trees Problems</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(to right, #f5f7fa, #c3cfe2); /* Gradient Background */
+            background-attachment: fixed;
+        }
+        h1 {
+            margin: 20px 0;
+            color: #007bff;
+        }
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Softer Shadow */
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .progress {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #28a745;
+        }
+        .progress-bar-container {
+            background: #e0e0e0;
+            border-radius: 5px;
+            height: 25px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background: #28a745;
+            width: 0;
+            transition: width 0.3s;
+        }
+        .search-filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-filter-container input,
+        .search-filter-container select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            font-size: 1em;
+            margin-right: 10px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .search-filter-container input:focus,
+        .search-filter-container select:focus {
+            border-color: #007bff;
+        }
+        .search-filter-container button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        .search-filter-container button:hover {
+            background-color: #0056b3;
+        }
+        .problem-container {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .problem-container:last-child {
+            border-bottom: none;
+        }
+        .problem-title {
+            font-weight: bold;
+            color: #007bff;
+            flex: 1;
+        }
+        .problem-link {
+            color: #ff4500;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .problem-link:hover {
+            color: #ff6347;
+        }
+        .problem-checkbox {
+            margin-right: 10px;
+        }
+        .difficulty {
+            color: #6c757d;
+            font-style: italic;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Binary Search Trees Problems</h1>
+    <div class="container">
+        <div class="search-filter-container">
+            <input type="text" id="search-box" placeholder="Search problems..." />
+            <select id="sort-options">
+                <option value="title">Sort by Title</option>
+                <option value="status">Sort by Status</option>
+                <option value="difficulty">Sort by Difficulty</option>
+                <option value="completion">Sort by Completion</option>
+                <option value="incompletion">Sort by Incompletion</option>
+                <option value="difficultyAsc">Sort Difficulty: Easy to Hard</option>
+                <option value="difficultyDesc">Sort Difficulty: Hard to Easy</option>
+            </select>
+            <button id="reset-progress">Reset Progress</button>
+        </div>
+        <div class="progress" id="progress-tracker">Progress: 0/0 (0%)</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div id="problems-container"></div>
+    </div>
+
+    <script>
+        const problems = [
+            { "topic": "Binary Search Trees", "problem": "Find a value in a BST", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/" },
+            { "topic": "Binary Search Trees", "problem": "Deletion of a node in a BST", "difficulty": "Medium", "done": false, "url": "https://leetcode.com/problems/delete-node-in-a-bst/" },
+            { "topic": "Binary Search Trees", "problem": "Find min and max value in a BST", "difficulty": "Easy", "done": false, "url": "https://practice.geeksforgeeks.org/problems/minimum-element-in-bst/1" },
+            { "topic": "Binary Search Trees", "problem": "Find inorder successor and inorder predecessor in a BST", "difficulty": "Hard", "done": false, "url": "https://practice.geeksforgeeks.org/problems/predecessor-and-successor/1" },
+            { "topic": "Binary Search Trees", "problem": "Check if a tree is a BST or not", "difficulty": "Easy", "done": false, "url": "https://practice.geeksforgeeks.org/problems/check-for-bst/1" },
+            { "topic": "Binary Search Trees", "problem": "Populate Inorder successor of all nodes", "difficulty": "Medium", "done": false, "url": "https://practice.geeksforgeeks.org/problems/populate-inorder-successor-for-all-nodes/1" },
+            { "topic": "Binary Search Trees", "problem": "Find LCA of 2 nodes in a BST", "difficulty": "Medium", "done": false, "url": "https://practice.geeksforgeeks.org/problems/lowest-common-ancestor-in-a-bst/1" },
+            { "topic": "Binary Search Trees", "problem": "Construct BST from preorder traversal", "difficulty": "Hard", "done": false, "url": "https://www.geeksforgeeks.org/construct-bst-from-given-preorder-traversa/" },
+            { "topic": "Binary Search Trees", "problem": "Convert Binary tree into BST", "difficulty": "Hard", "done": false, "url": "https://practice.geeksforgeeks.org/problems/binary-tree-to-bst/1" },
+            { "topic": "Binary Search Trees", "problem": "Convert a normal BST into a Balanced BST", "difficulty": "Hard", "done": false, "url": "https://www.geeksforgeeks.org/convert-normal-bst-balanced-bst/" },
+            { "topic": "Binary Search Trees", "problem": "Merge two BST [ V.V.V>IMP ]", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/merge-two-balanced-binary-search-trees/" },
+            { "topic": "Binary Search Trees", "problem": "Find Kth largest element in a BST", "difficulty": "Medium", "done": false, "url": "https://practice.geeksforgeeks.org/problems/kth-largest-element-in-bst/1" },
+            { "topic": "Binary Search Trees", "problem": "Find Kth smallest element in a BST", "difficulty": "Medium", "done": false, "url": "https://practice.geeksforgeeks.org/problems/find-k-th-smallest-element-in-bst/1" },
+            { "topic": "Binary Search Trees", "problem": "Count pairs from 2 BST whose sum is equal to given value 'X'", "difficulty": "Hard", "done": false, "url": "https://practice.geeksforgeeks.org/problems/brothers-from-different-root/1" },
+            { "topic": "Binary Search Trees", "problem": "Find the median of BST in O(n) time and O(1) space", "difficulty": "Hard", "done": false, "url": "https://www.geeksforgeeks.org/find-median-bst-time-o1-space/" },
+            { "topic": "Binary Search Trees", "problem": "Count BST nodes that lie in a given range", "difficulty": "Medium", "done": false, "url": "https://practice.geeksforgeeks.org/problems/count-bst-nodes-that-lie-in-a-given-range/1" }
+        ];
+
+        function updateProgress() {
+            const completed = problems.filter(p => p.done).length;
+            const total = problems.length;
+            const percentage = (completed / total) * 100;
+
+            document.getElementById('progress-tracker').textContent = Progress: ${completed}/${total} (${Math.round(percentage)}%);
+            document.getElementById('progress-bar').style.width = ${percentage}%;
+        }
+
+        function displayProblems() {
+            const container = document.getElementById('problems-container');
+            container.innerHTML = '';
+
+            problems.forEach((problem, index) => {
+                const problemElement = document.createElement('div');
+                problemElement.className = 'problem-container';
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'problem-checkbox';
+                checkbox.checked = problem.done;
+                checkbox.addEventListener('change', () => {
+                    problem.done = checkbox.checked;
+                    updateProgress();
+                });
+
+                const title = document.createElement('span');
+                title.className = 'problem-title';
+                title.innerHTML = <a href="${problem.url}" class="problem-link" target="_blank">${problem.problem}</a>;
+
+                const difficulty = document.createElement('span');
+                difficulty.className = 'difficulty';
+                difficulty.textContent = Difficulty: ${problem.difficulty};
+
+                problemElement.appendChild(checkbox);
+                problemElement.appendChild(title);
+                problemElement.appendChild(difficulty);
+
+                container.appendChild(problemElement);
+            });
+        }
+
+        function handleSearchAndSort() {
+            const searchBox = document.getElementById('search-box');
+            const sortOptions = document.getElementById('sort-options');
+
+            const searchTerm = searchBox.value.toLowerCase();
+            const sortOption = sortOptions.value;
+
+            const filteredProblems = problems.filter(p => p.problem.toLowerCase().includes(searchTerm));
+
+            filteredProblems.sort((a, b) => {
+                switch (sortOption) {
+                    case 'title':
+                        return a.problem.localeCompare(b.problem);
+                    case 'status':
+                        return a.done - b.done;
+                    case 'difficulty':
+                        return ['Easy', 'Medium', 'Hard'].indexOf(a.difficulty) - ['Easy', 'Medium', 'Hard'].indexOf(b.difficulty);
+                    case 'completion':
+                        return (a.done ? 0 : 1) - (b.done ? 0 : 1);
+                    case 'incompletion':
+                        return (b.done ? 0 : 1) - (a.done ? 0 : 1);
+                    case 'difficultyAsc':
+                        return ['Easy', 'Medium', 'Hard'].indexOf(a.difficulty) - ['Easy', 'Medium', 'Hard'].indexOf(b.difficulty);
+                    case 'difficultyDesc':
+                        return ['Easy', 'Medium', 'Hard'].indexOf(b.difficulty) - ['Easy', 'Medium', 'Hard'].indexOf(a.difficulty);
+                    default:
+                        return 0;
+                }
+            });
+
+            return filteredProblems;
+        }
+
+        document.getElementById('search-box').addEventListener('input', () => {
+            const filteredProblems = handleSearchAndSort();
+            displayProblems(filteredProblems);
+        });
+
+        document.getElementById('sort-options').addEventListener('change', () => {
+            const filteredProblems = handleSearchAndSort();
+            displayProblems(filteredProblems);
+        });
+
+        document.getElementById('reset-progress').addEventListener('click', () => {
+            problems.forEach(p => p.done = false);
+            document.getElementById('search-box').value = '';
+            document.getElementById('sort-options').value = 'title';
+            updateProgress();
+            displayProblems();
+        });
+
+        displayProblems();
+        updateProgress();
+    </script>
+</body>
+</html>
+
+consider all the features and change the below code

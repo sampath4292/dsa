@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting & Searching problems</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(to right, #f5f7fa, #c3cfe2); /* Gradient Background */
+            background-attachment: fixed;
+        }
+        h1 {
+            margin: 20px 0;
+            color: #007bff;
+        }
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Softer Shadow */
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .progress {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #28a745;
+        }
+        .progress-bar-container {
+            background: #e0e0e0;
+            border-radius: 5px;
+            height: 25px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background: #28a745;
+            width: 0;
+            transition: width 0.3s;
+        }
+        .search-filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-filter-container input,
+        .search-filter-container select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            font-size: 1em;
+            margin-right: 10px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .search-filter-container input:focus,
+        .search-filter-container select:focus {
+            border-color: #007bff;
+        }
+        .search-filter-container button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        .search-filter-container button:hover {
+            background-color: #0056b3;
+        }
+        .problem-container {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .problem-container:last-child {
+            border-bottom: none;
+        }
+        .problem-title {
+            font-weight: bold;
+            color: #007bff;
+            flex: 1;
+        }
+        .problem-link {
+            color: #ff4500;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .problem-link:hover {
+            color: #ff6347;
+        }
+        .problem-checkbox {
+            margin-right: 10px;
+        }
+        .difficulty {
+            color: #6c757d;
+            font-style: italic;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sorting & Searching problems</h1>
+    <div class="container">
+        <div class="search-filter-container">
+            <input type="text" id="search-box" placeholder="Search problems..." />
+            <select id="sort-options">
+                <option value="title">Sort by Title</option>
+                <option value="status">Sort by Status</option>
+                <option value="difficulty">Sort by Difficulty</option>
+                <option value="completion">Sort by Completion</option>
+                <option value="incompletion">Sort by Incompletion</option>
+                <option value="difficultyAsc">Sort Difficulty: Easy to Hard</option>
+                <option value="difficultyDesc">Sort Difficulty: Hard to Easy</option>
+            </select>
+            <button id="reset-progress">Reset Progress</button>
+        </div>
+        <div class="progress" id="progress-tracker">Progress: 0/0 (0%)</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div id="problems-container"></div>
+    </div>
+
+    <script>
+        // Retrieve problems from localStorage or use the default list
+        const storedproblems = localStorage.getItem('backtrackingproblems');
+        const problems = storedproblems ? JSON.parse(storedproblems) : [
+            { "Topic": "BackTracking", "problem": "Rat in a maze problem", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/rat-in-a-maze-problem/1", "Difficulty": "Medium" },
+            { "Topic": "BackTracking", "problem": "Printing all solutions in N-Queen problem", "done": false, "URL": "https://www.geeksforgeeks.org/printing-solutions-n-queen-problem/", "Difficulty": "Hard" },
+            { "Topic": "BackTracking", "problem": "Word Break problem using Backtracking", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/word-break-part-2/0", "Difficulty": "Medium" },
+            { "Topic": "BackTracking", "problem": "Remove Invalid Parentheses", "done": false, "URL": "https://leetcode.com/problems/remove-invalid-parentheses/", "Difficulty": "Hard" },
+            { "Topic": "BackTracking", "problem": "Sudoku Solver", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/solve-the-sudoku/0", "Difficulty": "Hard" },
+            { "Topic": "BackTracking", "problem": "m Coloring problem", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/m-coloring-problem/0", "Difficulty": "Medium" },
+            { "Topic": "BackTracking", "problem": "Print all palindromic partitions of a string", "done": false, "URL": "https://www.geeksforgeeks.org/given-a-string-print-all-possible-palindromic-partition/", "Difficulty": "Medium" },
+            { "Topic": "BackTracking", "problem": "Subset Sum problem", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/subset-sum-problem2014/1", "Difficulty": "Medium" },
+            { "Topic": "BackTracking", "problem": "The Knight’s tour problem", "done": false, "URL": "https://www.geeksforgeeks.org/the-knights-tour-problem-backtracking-1/", "Difficulty": "Hard" },
+            { "Topic": "BackTracking", "problem": "Tug of War", "done": false, "URL": "https://www.geeksforgeeks.org/tug-of-war/", "Difficulty": "Hard" },
+            { "Topic": "BackTracking", "problem": "Find shortest safe route in a path with landmines", "done": false, "URL": "https://www.geeksforgeeks.org/find-shortest-safe-route-in-a-path-with-landmines/", "Difficulty": "Medium" },
+            { "Topic": "BackTracking", "problem": "Combinational Sum", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/combination-sum/0", "Difficulty": "Medium" },
+            { "Topic": "BackTracking", "problem": "Find Maximum number possible by doing at-most K swaps", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/largest-number-in-k-swaps/0", "Difficulty": "Hard" },
+            { "Topic": "BackTracking", "problem": "Print all permutations of a string", "done": false, "URL": "https://practice.geeksforgeeks.org/problems/permutations-of-a-given-string/0", "Difficulty": "Medium" },
+            { "Topic": "BackTracking", "problem": "Find if there is a path of more than k length from a source", "done": false, "URL": "https://www.geeksforgeeks.org/find-if-there-is-a-path-of-more-than-k-length-from-a-source/", "Difficulty": "Hard" },
+            { "Topic": "BackTracking", "problem": "Longest Possible Route in a Matrix with Hurdles", "done": false, "URL": "https://www.geeksforgeeks.org/longest-possible-route-in-a-matrix-with-hurdles/", "Difficulty": "Hard" },
+            { "Topic": "BackTracking", "problem": "Print all possible paths from top left to bottom right of a mXn matrix", "done": false, "URL": "https://www.geeksforgeeks.org/print-all-possible-paths-from-top-left-to-bottom-right-of-a-mxn-matrix/", "Difficulty": "Medium" }
+        ];
+
+        function displayproblems(problems) {
+            const container = document.getElementById("problems-container");
+            container.innerHTML = "";
+
+            problems.forEach((problem, index) => {
+                const problemDiv = document.createElement("div");
+                problemDiv.className = "problem-container";
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "problem-checkbox";
+                checkbox.checked = problem.done;
+                checkbox.addEventListener("change", () => {
+                    problem.done = checkbox.checked;
+                    updateProgress();
+                    saveproblems();
+                });
+
+                const title = document.createElement("span");
+                title.className = "problem-title";
+                title.textContent = problem.problem;
+
+                const difficulty = document.createElement("span");
+                difficulty.className = "difficulty";
+                difficulty.textContent = problem.Difficulty;
+
+                const link = document.createElement("a");
+                link.className = "problem-link";
+                link.href = problem.URL;
+                link.textContent = "Solve";
+                link.target = "_blank";
+
+                problemDiv.appendChild(checkbox);
+                problemDiv.appendChild(title);
+                problemDiv.appendChild(difficulty);
+                problemDiv.appendChild(link);
+
+                container.appendChild(problemDiv);
+            });
+        }
+
+        function updateProgress() {
+            const totalproblems = problems.length;
+            const solvedproblems = problems.filter(problem => problem.done).length;
+            const progressPercentage = Math.round((solvedproblems / totalproblems) * 100);
+
+            document.getElementById("progress-tracker").textContent = `Progress: ${solvedproblems}/${totalproblems} (${progressPercentage}%)`;
+            document.getElementById("progress-bar").style.width = `${progressPercentage}%`;
+        }
+
+        function saveproblems() {
+            localStorage.setItem('backtrackingproblems', JSON.stringify(problems));
+        }
+
+        document.getElementById("search-box").addEventListener("input", function () {
+            const query = this.value.toLowerCase();
+            const filteredproblems = problems.filter(problem => problem.problem.toLowerCase().includes(query));
+            displayproblems(filteredproblems);
+        });
+
+        document.getElementById("sort-options").addEventListener("change", function () {
+            const sortBy = this.value;
+
+            let sortedproblems = [...problems];
+
+            if (sortBy === "title") {
+                sortedproblems.sort((a, b) => a.problem.localeCompare(b.problem));
+            } else if (sortBy === "status") {
+                sortedproblems.sort((a, b) => a.done - b.done);
+            } else if (sortBy === "difficulty") {
+                const difficultyOrder = { "Easy": 1, "Medium": 2, "Hard": 3 };
+                sortedproblems.sort((a, b) => difficultyOrder[a.Difficulty] - difficultyOrder[b.Difficulty]);
+            } else if (sortBy === "completion") {
+                sortedproblems = problems.filter(problem => problem.done);
+            } else if (sortBy === "incompletion") {
+                sortedproblems = problems.filter(problem => !problem.done);
+            } else if (sortBy === "difficultyAsc") {
+                sortedproblems.sort((a, b) => a.Difficulty.localeCompare(b.Difficulty));
+            } else if (sortBy === "difficultyDesc") {
+                sortedproblems.sort((a, b) => b.Difficulty.localeCompare(a.Difficulty));
+            }
+
+            displayproblems(sortedproblems);
+        });
+
+        document.getElementById("reset-progress").addEventListener("click", function () {
+            problems.forEach(problem => {
+                problem.done = false;
+            });
+            updateProgress();
+            saveproblems();
+            displayproblems(problems);
+        });
+
+        // Initialize the page
+        displayproblems(problems);
+        updateProgress();
+    </script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARRAYS Problems</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(to right, #f5f7fa, #c3cfe2); /* Gradient Background */
+            background-attachment: fixed;
+        }
+        h1 {
+            margin: 20px 0;
+            color: #007bff;
+        }
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Softer Shadow */
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .progress {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #28a745;
+        }
+        .progress-bar-container {
+            background: #e0e0e0;
+            border-radius: 5px;
+            height: 25px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background: #28a745;
+            width: 0;
+            transition: width 0.3s;
+        }
+        .search-filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-filter-container input,
+        .search-filter-container select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            font-size: 1em;
+            margin-right: 10px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .search-filter-container input:focus,
+        .search-filter-container select:focus {
+            border-color: #007bff;
+        }
+        .search-filter-container button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        .search-filter-container button:hover {
+            background-color: #0056b3;
+        }
+        .problem-container {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .problem-container:last-child {
+            border-bottom: none;
+        }
+        .problem-title {
+            font-weight: bold;
+            color: #007bff;
+            flex: 1;
+        }
+        .problem-link {
+            color: #ff4500;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .problem-link:hover {
+            color: #ff6347;
+        }
+        .problem-checkbox {
+            margin-right: 10px;
+        }
+        .problem-content {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        .difficulty {
+            color: #6c757d;
+            font-style: italic;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ARRAYS Problems</h1>
+    <div class="container">
+        <div class="search-filter-container">
+            <input type="text" id="search-box" placeholder="Search problems..." />
+            <select id="sort-options">
+                <option value="title">Sort by Title</option>
+                <option value="status">Sort by Status</option>
+                <option value="difficulty">Sort by Difficulty</option>
+                <option value="completion">Sort by Completion</option>
+                <option value="incompletion">Sort by Incompletion</option>
+                <option value="difficultyAsc">Sort Difficulty: Easy to Hard</option>
+                <option value="difficultyDesc">Sort Difficulty: Hard to Easy</option>
+            </select>
+            <button id="reset-progress">Reset Progress</button>
+        </div>
+        <div class="progress" id="progress-tracker">Progress: 0/0 (0%)</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div id="problems-container"></div>
+    </div>
+
+    <script>
+        // Retrieve problems from localStorage or use the default list
+        const storedproblems = localStorage.getItem('arraysproblems');
+        const problems = storedproblems ? JSON.parse(storedproblems) : [
+            { "topic": "Array", "problem": "Reverse the array", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/write-a-program-to-reverse-an-array-or-string/" },
+            { "topic": "Array", "problem": "Find the maximum and minimum element in an array", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/maximum-and-minimum-in-an-array/" },
+            { "topic": "Array", "problem": "Find the Kth largest element in an array", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/kth-largest-element-in-a-stream/" },
+            { "topic": "Array", "problem": "Find the majority element in an array", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/majority-element/" },
+            { "topic": "Array", "problem": "Rotate an array", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/array-rotation/" },
+            { "topic": "Array", "problem": "Find the intersection of two arrays", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/intersection-of-two-arrays/" },
+            { "topic": "Array", "problem": "Find the union of two arrays", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/union-of-two-arrays/" },
+            { "topic": "Array", "problem": "Check if a subarray with zero sum exists", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/find-if-there-is-a-subarray-with-zero-sum/" },
+            { "topic": "Array", "problem": "Find the missing number in an array of 1 to N", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/find-the-missing-number/" },
+            { "topic": "Array", "problem": "Find duplicates in an array", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/find-duplicates-in-an-array/" },
+            { "topic": "Array", "problem": "Find the smallest positive integer missing from an unsorted array", "difficulty": "Hard", "done": false, "url": "https://www.geeksforgeeks.org/smallest-positive-missing-number/" },
+            { "topic": "Array", "problem": "Merge two sorted arrays", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/merge-two-sorted-arrays-with-o1-extra-space/" },
+            { "topic": "Array", "problem": "Find the longest increasing subsequence", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/longest-increasing-subsequence-dp-3/" },
+            { "topic": "Array", "problem": "Find the longest contiguous subarray with sum zero", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/find-the-largest-subarray-with-zero-sum/" },
+            { "topic": "Array", "problem": "Rearrange positive and negative numbers in an array", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/rearrange-positive-and-negative-numbers/" },
+            { "topic": "Array", "problem": "Find the subarray with the given sum", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/find-a-subarray-with-a-given-sum/" },
+            { "topic": "Array", "problem": "Find the maximum sum subarray (Kadane's Algorithm)", "difficulty": "Easy", "done": false, "url": "https://www.geeksforgeeks.org/largest-sum-contiguous-subarray/" },
+            { "topic": "Array", "problem": "Find the repeating and the missing elements in an array", "difficulty": "Hard", "done": false, "url": "https://www.geeksforgeeks.org/find-a-repeating-and-a-missing-number/" },
+            { "topic": "Array", "problem": "Find the inversion count in an array", "difficulty": "Hard", "done": false, "url": "https://www.geeksforgeeks.org/counting-inversions/" },
+            { "topic": "Array", "problem": "Implement a three-way partitioning of an array", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/three-way-partitioning-of-an-array-around-a-given-range/" },
+            { "topic": "Array", "problem": "Find the maximum product subarray", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/maximum-product-subarray/" },
+            { "topic": "Array", "problem": "Find the minimum number of jumps to reach the end of an array", "difficulty": "Medium", "done": false, "url": "https://www.geeksforgeeks.org/minimum-number-of-jumps-to-reach-end-of-a-given-array/" }
+        ];
+
+        // Update the problems in localStorage if not already stored
+        if (!storedproblems) {
+            localStorage.setItem('arraysproblems', JSON.stringify(problems));
+        }
+
+        // Function to render the problems
+        function renderProblems() {
+            const problemsContainer = document.getElementById('problems-container');
+            problemsContainer.innerHTML = '';
+
+            problems.forEach((problem, index) => {
+                const problemContainer = document.createElement('div');
+                problemContainer.classList.add('problem-container');
+
+                const problemContent = document.createElement('div');
+                problemContent.classList.add('problem-content');
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.classList.add('problem-checkbox');
+                checkbox.checked = problem.done;
+                checkbox.addEventListener('change', () => {
+                    problem.done = checkbox.checked;
+                    updateProgress();
+                    saveProblems();
+                });
+
+                const problemTitle = document.createElement('div');
+                problemTitle.classList.add('problem-title');
+                problemTitle.textContent = problem.problem;
+
+                const problemLink = document.createElement('a');
+                problemLink.classList.add('problem-link');
+                problemLink.href = problem.url;
+                problemLink.target = '_blank';
+                problemLink.textContent = 'View Problem';
+
+                const difficulty = document.createElement('div');
+                difficulty.classList.add('difficulty');
+                difficulty.textContent = problem.difficulty;
+
+                problemContent.appendChild(checkbox);
+                problemContent.appendChild(problemTitle);
+
+                problemContainer.appendChild(problemContent);
+                problemContainer.appendChild(problemLink);
+                problemContainer.appendChild(difficulty);
+
+                problemsContainer.appendChild(problemContainer);
+            });
+
+            updateProgress();
+        }
+
+        // Function to update progress
+        function updateProgress() {
+            const completed = problems.filter(p => p.done).length;
+            const total = problems.length;
+            const percentage = (completed / total) * 100;
+
+            document.getElementById('progress-tracker').textContent = `Progress: ${completed}/${total} (${percentage.toFixed(2)}%)`;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+        }
+
+        // Function to save problems to localStorage
+        function saveProblems() {
+            localStorage.setItem('arraysProblems', JSON.stringify(problems));
+        }
+
+        // Reset progress
+        document.getElementById('reset-progress').addEventListener('click', () => {
+            problems.forEach(problem => problem.done = false);
+            renderProblems();
+            saveProblems();
+        });
+
+        // Search functionality
+        document.getElementById('search-box').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            problems.forEach(problem => {
+                const problemContainer = document.querySelectorAll('.problem-container')[problems.indexOf(problem)];
+                if (problem.problem.toLowerCase().includes(searchTerm)) {
+                    problemContainer.style.display = 'flex';
+                } else {
+                    problemContainer.style.display = 'none';
+                }
+            });
+        });
+
+        // Sort functionality
+        document.getElementById('sort-options').addEventListener('change', (e) => {
+            const sortBy = e.target.value;
+
+            switch (sortBy) {
+                case 'title':
+                    problems.sort((a, b) => a.problem.localeCompare(b.problem));
+                    break;
+                case 'status':
+                    problems.sort((a, b) => a.done - b.done);
+                    break;
+                case 'difficulty':
+                    problems.sort((a, b) => a.difficulty.localeCompare(b.difficulty));
+                    break;
+                case 'completion':
+                    problems.sort((a, b) => a.done - b.done);
+                    break;
+                case 'incompletion':
+                    problems.sort((a, b) => b.done - a.done);
+                    break;
+                case 'difficultyAsc':
+                    problems.sort((a, b) => {
+                        const difficulties = { "Easy": 1, "Medium": 2, "Hard": 3 };
+                        return difficulties[a.difficulty] - difficulties[b.difficulty];
+                    });
+                    break;
+                case 'difficultyDesc':
+                    problems.sort((a, b) => {
+                        const difficulties = { "Easy": 1, "Medium": 2, "Hard": 3 };
+                        return difficulties[b.difficulty] - difficulties[a.difficulty];
+                    });
+                    break;
+                default:
+                    break;
+            }
+
+            renderProblems();
+        });
+
+        // Initial rendering of problems
+        renderProblems();
+    </script>
+</body>
+</html>
+
+        

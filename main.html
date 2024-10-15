@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA TRACKER</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: #fff;
+        }
+        .head {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .head h1 {
+            font-size: 2.5rem;
+        }
+        .card {
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        .card-title a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .card-title a:hover {
+            color: #0056b3;
+        }
+        .card-body {
+            text-align: center;
+        }
+        .progress-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .progress-container span {
+            font-size: 1.1rem;
+            color: #333;
+        }
+        a.card-link {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="head">
+        <h1><i class="fa fa-align-center" aria-hidden="true"></i> DSA TRACKER</h1>
+    </div>
+    <div class="container">
+        <div class="row">
+            <!-- Array Card -->
+            <div class="col-md-4">
+                <a href="array.html" class="card-link">
+                    <div class="card">
+                        <img class="card-img-top" src="https://th.bing.com/th/id/OIP.XdwaMMieKuiyoiq6uATtDwHaDt?rs=1&pid=ImgDetMain" alt="Arrays">
+                        <div class="card-body">
+                            <h5 class="card-title">ARRAYS</h5>
+                            <div class="progress-container">
+                                <span id="array-progress">0</span> Problems Completed
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Strings Card -->
+            <div class="col-md-4">
+                <a href="Strings.html" class="card-link">
+                    <div class="card">
+                        <img class="card-img-top" src="https://media.geeksforgeeks.org/wp-content/uploads/20220820132424/Strings-660x496.png" alt="Strings">
+                        <div class="card-body">
+                            <h5 class="card-title">Strings</h5>
+                            <div class="progress-container">
+                                <span id="strings-progress">0</span> Problems Completed
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Sort & Search Card -->
+            <div class="col-md-4">
+                <a href="sort&search.html" class="card-link">
+                    <div class="card">
+                        <img class="card-img-top" src="https://miro.medium.com/max/560/1*k54o6Y0a6ifDD8qJFBu4Fg.png" alt="Sort & Search">
+                        <div class="card-body">
+                            <h5 class="card-title">Sort & Search</h5>
+                            <div class="progress-container">
+                                <span id="sort-search-progress">0</span> Problems Completed
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <!-- LinkedList Card -->
+            <div class="col-md-4">
+                <a href="linkedlist.html" class="card-link">
+                    <div class="card">
+                        <img class="card-img-top" src="https://miro.medium.com/max/1400/1*i1SgZnkB-_mrec4MvRJn4Q.png" alt="LinkedList">
+                        <div class="card-body">
+                            <h5 class="card-title">LinkedList</h5>
+                            <div class="progress-container">
+                                <span id="linkedlist-progress">0</span> Problems Completed
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Matrix Card -->
+            <div class="col-md-4">
+                <a href="matrix2.html" class="card-link">
+                    <div class="card">
+                        <img class="card-img-top" src="https://th.bing.com/th/id/OIP.9W9U3TbLkkjih7rf72kbngHaEK?rs=1&pid=ImgDetMain" alt="Matrix">
+                        <div class="card-body">
+                            <h5 class="card-title">MATRIX</h5>
+                            <div class="progress-container">
+                                <span id="matrix-progress">0</span> Problems Completed
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Binary Tree Card -->
+            <div class="col-md-4">
+                <a href="binary tree.html" class="card-link">
+                    <div class="card">
+                        <img class="card-img-top" src="https://i.ytimg.com/vi/n-Z5LPai3No/maxresdefault.jpg" alt="Binary Tree">
+                        <div class="card-body">
+                            <h5 class="card-title">Binary Tree</h5>
+                            <div class="progress-container">
+                                <span id="binary-tree-progress">0</span> Problems Completed
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <!-- BST Card -->
+            <div class="col-md-4">
+                <a href="bst.html" class="card-link">
+                    <div class="card">
+                        <img class="card-img-top" src="https://th.bing.com/th/id/OIP.pnRJ-jh3IVCO-1yUbJQQRAHaDd?rs=1&pid=ImgDetMain" alt="BST">
+                        <div class="card-body">
+                            <h5 class="card-title">BST</h5>
+                            <div class="progress-container">
+                                <span id="bst-progress">0</span> Problems Completed
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Greedy Card -->
+            <div class="col-md-4">
+                <a href="greedy.html" class="card-link">
+                    <div class="card">
+                        <img class="card-img-top" src="https://www.techgeekbuzz.com/media/tutorial_images/Greedy-Algorithms.jpg" alt="Greedy">
+                        <div class="card-body">
+                            <h5 class="card-title">Greedy</h5>
+                            <div class="progress-container">
+                                <span id="greedy-progress">0</span> Problems Completed
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Backtracking Card -->
+            <div class="col-md-4">
+                <a href="backtracking.html" class="card-link">
+                    <div class="card">
+                        <img class="card-img-top" src="https://repository-images.githubusercontent.com/586959324/7e779458-e9b0-4e1b-94e1-9aee5e777d94" alt="Backtracking">
+                        <div class="card-body">
+                            <h5 class="card-title">Backtracking</h5>
+                            <div class="progress-container">
+                                <span id="backtracking-progress">0</span> Problems Completed
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Stacks & Queues Card -->
+            <div class="col-md-4">
+                <a href="stacks&queues.html" class="card-link">
+                    <div class="card">
+                        <img class="card-img-top" src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20230726165642/Queue-Data-structure1.png" alt="Stacks & Queues">
+                        <div class="card-body">
+                            <h5 class="card-title">Stacks & Queues</h5>
+                            <div class="progress-container">
+                                <span id="stacks-queues-progress">0</span> Problems Completed
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Heap Card -->
+            <div class="col-md-4">
+                <a href="heap.html" class="card-link">
+                    <div class="card">
+                        <img class="card-img-top" src="https://www.geeksforgeeks.org/wp-content/uploads/MinHeapAndMaxHeap.png" alt="Heap">
+                        <div class="card-body">
+                            <h5 class="card-title">Heap</h5>
+                            <div class="progress-container">
+                                <span id="heap-progress">0</span> Problems Completed
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Graph Card -->
+            <div class="col-md-4">
+                <a href="graph.html" class="card-link">
+                    <div class="card">
+                        <img class="card-img-top" src="https://blog.masaischool.com/content/images/2022/07/Graph-Data-Structure---2-.png" alt="Graph">
+                        <div class="card-body">
+                            <h5 class="card-title">Graph</h5>
+                            <div class="progress-container">
+                                <span id="graph-progress">0</span> Problems Completed
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Trie Card -->
+            <div class="col-md-4">
+                <a href="trie.html" class="card-link">
+                    <div class="card">
+                        <img class="card-img-top" src="https://miro.medium.com/v2/resize:fit:608/1*WYVLBErouIa_rzI4EKoi9w.png" alt="Trie">
+                        <div class="card-body">
+                            <h5 class="card-title">Trie</h5>
+                            <div class="progress-container">
+                                <span id="trie-progress">0</span> Problems Completed
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Dynamic Programming Card -->
+            <div class="col-md-4">
+                <a href="dp.html" class="card-link">
+                    <div class="card">
+                        <img class="card-img-top" src="https://www.techgeekbuzz.com/media/tutorial_images/Dynamic-Programming.jpg" alt="Dynamic Programming">
+                        <div class="card-body">
+                            <h5 class="card-title">Dynamic Programming</h5>
+                            <div class="progress-container">
+                                <span id="dp-progress">0</span> Problems Completed
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Bit Manipulation Card -->
+            <div class="col-md-4">
+                <a href="bit.html" class="card-link">
+                    <div class="card">
+                        <img class="card-img-top" src="https://www.lebigdata.fr/wp-content/uploads/2022/09/BIT.jpg" alt="Bit Manipulation">
+                        <div class="card-body">
+                            <h5 class="card-title">Bit Manipulation</h5>
+                            <div class="progress-container">
+                                <span id="bit-progress">0</span> Problems Completed
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function updateCardProgress(cardId, progressId, storageKey) {
+            try {
+                const storedProblems = JSON.parse(localStorage.getItem(storageKey)) || [];
+                const completed = storedProblems.filter(problem => problem.done).length;
+                document.getElementById(progressId).textContent = completed;
+            } catch (error) {
+                console.error(`Error updating progress for ${cardId}:`, error);
+                document.getElementById(progressId).textContent = '0';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCardProgress('array-card', 'array-progress', 'arraysproblems');
+            updateCardProgress('strings-card', 'strings-progress', 'stringsproblems');
+            updateCardProgress('sort-search-card', 'sort-search-progress', 'sortSearchproblems');
+            updateCardProgress('linkedlist-card', 'linkedlist-progress', 'linkedListproblems');
+            updateCardProgress('matrix-card', 'matrix-progress', 'matrixproblems');
+            updateCardProgress('binary-tree-card', 'binary-tree-progress', 'binaryTreeproblems');
+            updateCardProgress('bst-card', 'bst-progress', 'bstproblems');
+            updateCardProgress('greedy-card', 'greedy-progress', 'greedyproblems');
+            updateCardProgress('backtracking-card', 'backtracking-progress', 'backtrackingproblems');
+            updateCardProgress('stacks-queues-card', 'stacks-queues-progress', 'stacksQueuesproblems');
+            updateCardProgress('heap-card', 'heap-progress', 'heapproblems');
+            updateCardProgress('graph-card', 'graph-progress', 'graphproblems');
+            updateCardProgress('trie-card', 'trie-progress', 'trieProblems');
+            updateCardProgress('dp-card', 'dp-progress', 'dpproblems');
+            updateCardProgress('bit-card', 'bit-progress', 'bitproblems');
+        });
+    </script>
+</body>
+</html>
+
